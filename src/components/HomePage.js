@@ -1,7 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import "";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 const HomePage = () => {
   return (
     <>

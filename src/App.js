@@ -30,6 +30,8 @@ const App = () => {
             </li>
             <li>
               <Link to="/login">login</Link>
+            </li>
+            <li>
               <Link to="/Profile">Profile</Link>
             </li>
           </ul>
