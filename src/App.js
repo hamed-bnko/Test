@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Provider } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import PrivateRoute from "./components/PrivateRoute";
+import Login from "./components/auth/Login";
+import Profile from "./components/Profile";
+import HomePage from "./components/HomePage";
+// Redux
+
+import store from "./store";
+import { loadUser } from "./redux/auth/actions";
+import setAuthToken from "./utils/setAuthToken";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
 }
+
+const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+  return (
+    <Provider store={store}>
+      <Fragment>
+        <Router>
+          <ul>
+            <li>
+              <Link to="/">MainPage</Link>
+            </li>
+            <li>
+              <Link to="/login">login</Link>
+              <Link to="/Profile">Profile</Link>
+            </li>
+          </ul>
+          <Switch>
+            <Route exact path="/" exact component={HomePage} />
+            <Route exact path="/login" exact component={Login} />
+            <PrivateRoute path="/profile" exact component={Profile} />
+          </Switch>
+        </Router>
+      </Fragment>
+    </Provider>
+  );
+};
 
 export default App;
